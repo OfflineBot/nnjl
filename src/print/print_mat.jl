@@ -1,6 +1,6 @@
 
-export print_mat
-function print_mat(A::AbstractMatrix) 
+export print_pretty_matrix
+function print_pretty_matrix(A::AbstractMatrix) 
     println("[")
     for i in axes(A, 1)
         print("  [ ")
