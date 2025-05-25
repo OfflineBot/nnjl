@@ -1,6 +1,7 @@
 
-export backward
-function backward()
+#export backward!
 
-end
+#function backward!(layer::DenseLayer, delta::Matrix{Float32})::Matrix{Float32}
+#
+#end
 
