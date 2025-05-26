@@ -2,8 +2,8 @@
 module nnjl
 
 include("./activation/activation.jl")
-include("./data/data.jl")
 include("./linear/linear.jl")
+include("./data/data.jl")
 include("./print/print_mat.jl")
 include("./loss/loss.jl")
 

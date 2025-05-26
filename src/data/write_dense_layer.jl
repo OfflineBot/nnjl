@@ -1,6 +1,4 @@
 
-include("../linear/dense_layer.jl")
-
 using JSON
 
 export write_json_dense_layer
