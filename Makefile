@@ -1,3 +1,3 @@
 
 make:
-	@julia ./src/nnjl.jl
+	@julia --project=. ./src/nnjl.jl
