@@ -9,7 +9,7 @@ include("./loss/loss.jl")
 
 x = DenseLayer(3, 2, relu)
 
-write_json_dense_layer(x, "layer1.json")
+write_json_dense_layer(x, "layer1.json", "relu")
 
 end
 
