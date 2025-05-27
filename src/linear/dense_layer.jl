@@ -12,20 +12,16 @@ mutable struct DenseLayer
     grad_weight::Union{Matrix{Float32}, Nothing}
     grad_bias::Union{Matrix{Float32}, Nothing}
 
-    ### Function must take Matrix{Float32} as input and returns Matrix{Float32}
-    function DenseLayer(input_size::Int, output_size::Int, activation::Activation)
-        weight = randn(input_size, output_size) .* 0.01f0
-        bias = randn(1, output_size) .* 0.01f0
-
-        z = nothing
-        a = nothing
-
-        input = nothing
-        grad_weight = nothing
-        grad_bias = nothing
-
-        return new(weight, bias, z, a, activation, input, grad_weight,grad_bias)
+    function DenseLayer(weight::Matrix{Float32}, bias::Matrix{Float32}, activation::Activation)
+        return new(weight, bias, nothing, nothing, activation, nothing, nothing, nothing)
     end
+end
+
+### Function must take Matrix{Float32} as input and returns Matrix{Float32}
+function DenseLayer(input_size::Int, output_size::Int, activation::Activation)
+    weight::Matrix{Float32} = randn(input_size, output_size) .* 0.01f0
+    bias::Matrix{Float32} = randn(1, output_size) .* 0.01f0
+    return DenseLayer(weight, bias, activation)
 end
 
 

@@ -5,5 +5,6 @@ export Activation
 struct Activation
     f::Function
     f_prime::Function
+    name::String
 end
 

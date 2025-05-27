@@ -6,6 +6,7 @@ sigmoid = Activation(
     x -> begin
         s = 1.0f0 ./ (1.0f0 .+ exp.(-x))
         s .* (1 .- s)
-    end
+    end,
+    "sigmoid"
 )
 
