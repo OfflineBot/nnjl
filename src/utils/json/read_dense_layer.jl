@@ -10,11 +10,8 @@ function read_json_dense_layer(name::String, activation::Union{Activation, Nothi
 
     layer_data = JSON.parsefile(string("data/", name))
 
-
     weights = Float32.(hcat(layer_data["weights"]...))
-
     bias = Float32.(hcat(layer_data["bias"]...))
-
     activation_function = layer_data["activation_name"]
 
     if activation !== nothing
