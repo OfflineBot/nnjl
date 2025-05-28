@@ -1,24 +1,15 @@
 
 module nnjl
 
-include("./activation/activation.jl")
-include("./linear/linear.jl")
-include("./data/data.jl")
-include("./print/print_mat.jl")
-include("./loss/loss.jl")
+include("./ai/activation/activation.jl")
+include("./ai/linear/linear.jl")
+include("./utils/json/json.jl")
 
-in::Int64 = 6
-out::Int64 = 8
+include("./ai/loss/loss.jl")
+include("./ai/norm/norm.jl")
+include("./utils/print/print_mat.jl")
 
-x = DenseLayer(in, out, relu)
 
-write_json_dense_layer(x, "layer1.json")
-
-y = read_json_dense_layer("layer1.json", nothing)
-
-write_json_dense_layer(y, "layer2.json")
-
-print_pretty_matrix(x.bias)
 
 end
 
