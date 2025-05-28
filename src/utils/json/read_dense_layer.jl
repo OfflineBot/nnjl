@@ -1,5 +1,5 @@
 
-using JSON
+import JSON
 
 export read_json_dense_layer
 

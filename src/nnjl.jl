@@ -7,7 +7,9 @@ include("./utils/json/json.jl")
 
 include("./ai/loss/loss.jl")
 include("./ai/norm/norm.jl")
-include("./utils/print/print_mat.jl")
+include("./utils/print/print.jl")
+include("./utils/functions/functions.jl")
+
 
 
 
