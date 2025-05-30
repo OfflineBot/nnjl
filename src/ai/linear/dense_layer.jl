@@ -17,7 +17,6 @@ mutable struct DenseLayer
     end
 end
 
-### Function must take Matrix{Float32} as input and returns Matrix{Float32}
 function DenseLayer(input_size::Int, output_size::Int, activation::Activation)
     weight::Matrix{Float32} = randn(input_size, output_size) .* 0.01f0
     bias::Matrix{Float32} = randn(1, output_size) .* 0.01f0
