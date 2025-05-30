@@ -6,7 +6,7 @@ export write_json_dense_layer
 ### name must end on .json (e.g. "layer1.json", "x.json")
 function write_json_dense_layer(layer::DenseLayer, name::String)
     weight_sizes = size(layer.weight)
-    data = NNJsonObject(weight_sizes[1], weight_sizes[2], layer.activation.name, layer.weight, layer.bias)
+    data = NNJsonStruct(weight_sizes[1], weight_sizes[2], layer.activation.name, layer.weight, layer.bias)
     if !isdir("data")
         mkdir("data")
     end
