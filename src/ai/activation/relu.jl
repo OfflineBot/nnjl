@@ -7,6 +7,7 @@ relu = Activation(
     "relu"
 )
 
+
 leaky_relu = Activation(
     x -> ifelse.(x .<= 0.01f0, x),
     x -> ifelse.(x .<= 0.01f0, 1.0f0),
