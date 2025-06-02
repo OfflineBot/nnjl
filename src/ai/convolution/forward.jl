@@ -11,7 +11,9 @@ function pad_array(input::Array{Float32, 4}, padding::Int)::Array{Float32, 4}
 end
 
 
-function forward!(layer::ConvLayer, input::Array{Float32, 4})::Array{Float32, 4}
+function forward!(layer::ConvLayer, input::Array{Float32, 4}, flipped::Bool=false)::Array{Float32, 4}
+
+    layer.input = input
 
     padding = layer.padding
     stride = layer.stride
@@ -26,18 +28,28 @@ function forward!(layer::ConvLayer, input::Array{Float32, 4})::Array{Float32, 4}
     out_y = floor(Int, (size(padded, 4) - layer.kernel_y) / stride) + 1
     out_array = zeros(items, layer.out_channel, out_x, out_y)
 
+    if flipped
+        kernel_x = layer.kernel_y
+        kernel_y = layer.kernel_x
+        kernel = flipped(layer.kernel)
+    else
+        kernel_x = layer.kernel_x
+        kernel_y = layer.kernel_y
+        kernel = layer.kernel
+    end
+
 
     for item in 1:items 
         for out_c in 1:layer.out_channel
             for in_c in 1:in_chn
                 for imgx in 1:out_x
                     for imgy in 1:out_y
-                        for kx in 1:layer.kernel_x
-                            for ky in 1:layer.kernel_y
+                        for kx in 1:kernel_x
+                            for ky in 1:kernel_y
                                 ix = (imgx - 1) * stride + kx
                                 iy = (imgy - 1) * stride + ky
                                 out_array[item, out_c, imgx, imgy] += 
-                                    padded[item, in_c, ix, iy] * layer.kernel[out_c, in_c, kx, ky]
+                                    padded[item, in_c, ix, iy] * kernel[out_c, in_c, kx, ky]
                             end
                         end
                     end
@@ -47,5 +59,10 @@ function forward!(layer::ConvLayer, input::Array{Float32, 4})::Array{Float32, 4}
     end
 
     return out_array
+end
+
+
+function flipped(kernel::Array{Float32, 4})::Array{Float32, 4}
+    return reverse(reverse(kernel, dims=3), dims=4)
 end
 
