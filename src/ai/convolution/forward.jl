@@ -1,6 +1,8 @@
 
 export forward!
 
+export conv_transpose
+
 
 function pad_array(input::Array{Float32, 4}, padding::Int)::Array{Float32, 4}
     items, input_size, input_height, input_width = size(input)
@@ -11,6 +13,7 @@ function pad_array(input::Array{Float32, 4}, padding::Int)::Array{Float32, 4}
 end
 
 
+# Written by ChatGPT!! (Have to check it in detail later)
 function forward!(layer::ConvLayer, input::Array{Float32, 4}, flipped::Bool=false)::Array{Float32, 4}
 
     layer.input = input
@@ -59,6 +62,47 @@ function forward!(layer::ConvLayer, input::Array{Float32, 4}, flipped::Bool=fals
     end
 
     return out_array
+end
+
+
+# Written by ChatGPT!! (Have to check it in detail later)
+function conv_transpose(delta::Array{Float32, 4}, kernel::Array{Float32, 4}, stride::Int, padding::Int)::Array{Float32, 4}
+    items, out_chn, delta_h, delta_w = size(delta)
+    out_c, in_c, kx, ky = size(kernel)
+
+    # Flip the kernel and swap input/output channels
+    flipped_kernel = flipped(kernel)
+    flipped_kernel = permutedims(flipped_kernel, (2, 1, 3, 4))  # Now [in_c, out_c, kx, ky]
+
+    # Calculate output size (back to input shape)
+    output_h = (delta_h - 1) * stride - 2 * padding + kx
+    output_w = (delta_w - 1) * stride - 2 * padding + ky
+
+    # Initialize output
+    grad_input = zeros(Float32, items, in_c, output_h, output_w)
+
+    for item in 1:items
+        for out_c in 1:out_chn
+            for in_c_ in 1:in_c
+                for x in 1:delta_h
+                    for y in 1:delta_w
+                        for kx_ in 1:kx
+                            for ky_ in 1:ky
+                                ix = (x - 1) * stride + kx_
+                                iy = (y - 1) * stride + ky_
+                                if 1 ≤ ix ≤ output_h && 1 ≤ iy ≤ output_w
+                                    grad_input[item, in_c_, ix, iy] += 
+                                        delta[item, out_c, x, y] * flipped_kernel[in_c_, out_c, kx_, ky_]
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    return grad_input
 end
 
 
